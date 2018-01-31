@@ -35,6 +35,11 @@ spring:
       test-while-idle: true
       time-between-eviction-runs-millis: 3000
       min-evictable-idle-time-millis: 30000
+  rabbitmq:
+    host: 192.168.1.138
+    port: 5672
+    username: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
+    password: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
   redis:
     host: 192.168.1.138
     port: 6379
