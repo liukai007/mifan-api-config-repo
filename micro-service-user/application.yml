@@ -79,7 +79,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://'{cipher}46dd0f49faa301a82d45da8b65ef92bd2c8899207fb6b832d633c64054be2adf':'{cipher}335671e72782a3c16c3817f617b9ab92b53df6632c27bc4d37a26e67b98e720d'@localhost:8761/eureka/
+      defaultZone: '{cipher}314bd801d65beaa4141a1461981b458cf141210250f557bf96328227251f8976fcc819f108b2e49001754f67bbd70e37e6ff21d862ab477812938ac7b9bf89ae'
 
 ########################
 ### APPLICATION CORE ###
