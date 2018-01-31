@@ -71,16 +71,6 @@ logging:
     org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
     org.springframework.cloud.commons.util.InetUtils: TRACE   # 开启这边的日志，可以打印出Spring查找网卡的过程
 
-##############
-### EUREKA ###
-##############
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: '{cipher}314bd801d65beaa4141a1461981b458cf141210250f557bf96328227251f8976fcc819f108b2e49001754f67bbd70e37e6ff21d862ab477812938ac7b9bf89ae'
-
 ########################
 ### APPLICATION CORE ###
 ########################
