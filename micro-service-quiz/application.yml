@@ -1,1 +1,97 @@
-﻿
+########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 8095
+  session:
+    timeout: 28800
+
+##############
+### SPRING ###
+##############
+spring:
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  datasource:                                                 # 指定数据源
+    initialize: false
+    schema: classpath:schema.sql                              # 指定数据库的建表脚本
+    data: classpath:data.sql                                  # 指定数据库的数据脚本
+    url: jdbc:mariadb://192.168.1.138:3306/mifan-quiz?useUnicode=true&autoReconnect=true
+    username: '{cipher}bd2df062909871910aa7fcae387968efc8d16f4681258945822b919293cadf92'
+    password: '{cipher}125404302d4fed5b3f345c70916b3a24df970d6b6eae0af7dc53fe7febcd82d5'
+    driver-class-name: org.mariadb.jdbc.Driver
+    tomcat:
+      max-active: 100
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+      initial-size: 10
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 30000
+  redis:
+    host: 192.168.1.138
+    port: 6379
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: false
+  user:
+    name: '{cipher}7b1cbaf8875ed857df8d361cbbe1a3b64107e0992863cab5efed24f26928fbca'
+    password: '{cipher}7b1cbaf8875ed857df8d361cbbe1a3b64107e0992863cab5efed24f26928fbca'
+
+###############
+### LOGGING ###
+###############
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO                                       # 配置日志级别，让hibernate打印出执行的SQL
+    org.springframework.web: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+    org.springframework.cloud.commons.util.InetUtils: TRACE   # 开启这边的日志，可以打印出Spring查找网卡的过程
+
+########################
+### APPLICATION CORE ###
+########################
+moon:
+  data:
+    token:
+      tokenHeader: Authorization
+      tokenHead: Bearer
+      secret: '{cipher}7973b25535a18598be47d73ebe624880149198f616dde9ba3d358bb62111e3d0'
+      expiration: 7200
+      remembermeExpiration: 604800
+      redirect: http://www.mifanxing.com/
+  security:
+    cas:
+      filter:
+        appKey: '{cipher}d913b087961ab81d59bf01b6e389593ed24d42e1fc4df7dc0a50368dbc61fd5c0cb96926f37487ca421a12e670faa783007f0bbd03800f47adc12ccf34c86b18'
+  model:
+    mybatis:
+      config-location: com/mifan/quiz/mybatis-config.xml
+  web:
+    micro-service:
+      enabled: true
+
+##########################
+### APPLICATION CONFIG ###
+##########################
+mifan:
+  proxy:
+    isUse: false
+    server: 192.168.1.138
+    port: 3128
