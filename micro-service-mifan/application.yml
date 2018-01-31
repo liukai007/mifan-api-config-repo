@@ -1,0 +1,258 @@
+﻿########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 8090
+  session:
+    timeout: 28800
+
+##############
+### SPRING ###
+##############
+spring:
+  aop:
+    auto: true                                          # Add @EnableAspectJAutoProxy.
+    proxy-target-class: false                           # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false).
+  http:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      location:
+      max-file-size: 1MB
+      max-request-size: 10MB
+      resolve-lazily: false
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  redis:
+    database: 0
+    host: 192.168.1.138
+    port: 6379
+  data:
+    mongodb:
+      host: 192.168.1.138
+      port: 27017
+      database: award
+      username: award
+      password: budee123
+      repositories:
+        enabled: true
+  rabbitmq:
+    host: 192.168.1.138
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
+    publisher-confirms: true
+    requested-heartbeat: 60
+    template:
+      receive-timeout: 0
+      reply-timeout: 30000
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 10000
+        multiplier: 10.0
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: false
+  user:
+    name: user
+    password: user
+
+###############
+### LOGGING ###
+###############
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO
+    org.springframework.web: INFO
+  path: /logs/mifan
+
+#############
+### FEIGN ###
+#############
+feign:
+  httpclient:
+    connection-timeout: 10000
+  hystrix:
+    enabled: true
+
+############################# To set thread isolation to SEMAPHORE,
+### FEIGN HYSTRIX SUPPORT ### RequestContextHolder.getRequestAttributes() read from Thread Local, so need to set hystrix isolation strategy to SEMAPHORE
+#############################
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-user:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 60000
+  SocketTimeout: 60000
+
+#######################################################################
+### DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties) ###
+#######################################################################
+
+###############
+### 主题中心 ###
+###############
+article:
+  datasource:
+    initialize: false
+    schema: classpath:/sql/schema-article.sql
+    data: classpath:/sql/data-article.sql
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://192.168.1.138:3306/mifan_article?useUnicode=true&autoReconnect=true
+    username: root
+    password: budee123
+    tomcat:
+      max-wait: 60000
+      max-active: 100
+      max-idle: 8
+      min-idle: 1
+      initial-size: 10
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 30000
+
+###############
+### 支持中心 ###
+###############
+support:
+  datasource:
+    initialize: false
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://192.168.1.138:3306/mifan_support?useUnicode=true&autoReconnect=true
+    username: root
+    password: budee123
+    tomcat:
+      max-wait: 60000
+      max-active: 100
+      max-idle: 8
+      min-idle: 1
+      initial-size: 10
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 30000
+
+########################
+### Application Core ###
+########################
+moon:
+  amqp:
+    rabbit:
+      remote-exchange: remote.direct.exchange2
+      remote-queue: remote.direct.queue2
+      server-data-queue: server.data.direct.queue2
+      server-data-exchange: server.data.direct.exchange2
+      client-data-queue: client.data.direct.queue2
+      client-data-exchange: client.data.direct.exchange2
+      server-event-queue: server.event.direct.queue2
+      server-event-exchange: server.event.direct.exchange2
+      client-event-exchange: client.event.direct.exchange2
+      client-event-queue: client.event.direct.queue2
+      # Spider queue
+      vpn-seeds-exchange: vpn.direct.exchange4
+      vpn-seeds-data-queue: vpn.data.direct.queue4
+      seeds-exchange: seeds.direct.exchange4
+      seeds-data-queue: seeds.data.direct.queue4
+      # Text queue, Classification, Clustering
+      analyzer-exchange: server.data.direct.analyzer.exchange
+      analyzer-queue: server.data.direct.analyzer.queue
+  data:
+    elasticsearch:
+      host: 192.168.1.138
+    token:
+      token-header: Authorization
+      token-head: Bearer
+      secret: budee123
+      expiration: 7200
+      remember-me-expiration: 604800
+      salt: f817fcf6-f6af-4c95-89fe-637838078bc9
+      redirect: http://www.mifanxing.com/
+    wxpay:
+      mchID: 1488379182
+      notify-url: https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
+      key: mifanxingsongningbo1234588888888
+      send-name: 米饭星
+      wishing: 想了解更多音频知识，请关注·米饭星·~~
+      client-ip: 121.42.161.53
+      act-name: 米饭星·注册送红包
+      remark: 没有备注
+      total-num: 1
+      cert-path: =D://cert/apiclient_cert.p12
+      redirect: http://www.mifanxing.com/Wregisterresult/
+  jsch:
+    host: 192.168.1.248
+    port: 22
+    user: root
+    password: budee123
+    known-hosts: 192.168.1.248 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgkGQV57yZty+wjOdGL40+r7GBgjDHFt8q+O7KDa4lODPGZyBSnoKumsy8n4EX/mTLaGzhArWMGq2Vkxw9GxEL80kT3mrwFR1WMbHO6tzCfMGm/DiUONyP1kq9/bxTcwAUulYnVZZMdNBkSyf0T509fAB8OOjIL+2RHYmqNYU49UiFajhQLGW3BJ4scPaLdr3cq1hboKDkD53wZzDrzCXQlZmr/Fgu9FNKGGwHlBhwuEZJts94R6ACHjETLe5r5r5Ni1t/C5YL6slFNd+Tb89MxIQcO8YDD9i25V3VfnqMr2V0uW0JhWAb1hS6AQjod23yixFYN0pLP4ye0KJ4ABQH
+    strict-host-key-checking: true
+  rabbitmq:
+    host: 192.168.1.138
+  security:
+    cas:
+      filter:
+        filter: d1b914ef-2908-45db-adf2-dd8ceffe61af
+
+##############
+### Config ###
+##############
+mifan:
+  server: 192.168.1.229
+  port: 3128
+  proxy:
+    isUse: false
+
+application:
+  idworker:
+    workerId: 2
+    datacenterId: 2
+  image:
+    baseUrl: http://static.budee.com/yyren/image/
+  scheduler:
+    enable:
+      index: false
+      prize: false
+      translation: false
+      update:
+        timer: false
+      water:
+        print: false
+      history:
+        cache: false
+  rest:
+    support:
+      host: 192.168.1.248
+  admin:
+    quartz:                           ### 是否开启后台管理的调度中心
+      enable: true
