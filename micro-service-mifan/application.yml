@@ -35,15 +35,15 @@ spring:
       host: 192.168.1.138
       port: 27017
       database: award
-      username: award
-      password: budee123
+      username: '{cipher}545b3995ddd39d4058b1feb8dd160f995ed2dcc1a9156392778768965573e869'
+      password: '{cipher}696c1b124b662fc0e950e3416627bcbf80b457163991474f6605eea497ad544d'
       repositories:
         enabled: true
   rabbitmq:
     host: 192.168.1.138
     port: 5672
-    username: rabbitmq
-    password: rabbitmq
+    username: '{cipher}08d2ffd2c64fd5af8ed42cae05f9427402add6c7cfdd82395b9713589128a728'
+    password: '{cipher}08d2ffd2c64fd5af8ed42cae05f9427402add6c7cfdd82395b9713589128a728'
     publisher-confirms: true
     requested-heartbeat: 60
     template:
@@ -66,8 +66,8 @@ security:
   basic:
     enabled: false
   user:
-    name: user
-    password: user
+    name: '{cipher}7a696f2784598274526281a46c2ad71664d74fe4480108059b8402349e27031d'
+    password: '{cipher}7a696f2784598274526281a46c2ad71664d74fe4480108059b8402349e27031d'
 
 ###############
 ### LOGGING ###
@@ -125,8 +125,8 @@ article:
     data: classpath:/sql/data-article.sql
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://192.168.1.138:3306/mifan_article?useUnicode=true&autoReconnect=true
-    username: root
-    password: budee123
+    username: '{cipher}198cfa54f50fb7c0046b9d4df1933262591eb9c72cf28da98b993715bdd6c5d1'
+    password: '{cipher}801cfe287ce731bd96d9d62d974973adfc6ddf3b87adb8820940f132932c1aa0'
     tomcat:
       max-wait: 60000
       max-active: 100
@@ -148,8 +148,8 @@ support:
     initialize: false
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://192.168.1.138:3306/mifan_support?useUnicode=true&autoReconnect=true
-    username: root
-    password: budee123
+    username: '{cipher}198cfa54f50fb7c0046b9d4df1933262591eb9c72cf28da98b993715bdd6c5d1'
+    password: '{cipher}801cfe287ce731bd96d9d62d974973adfc6ddf3b87adb8820940f132932c1aa0'
     tomcat:
       max-wait: 60000
       max-active: 100
@@ -193,15 +193,15 @@ moon:
     token:
       token-header: Authorization
       token-head: Bearer
-      secret: budee123
+      secret: '{cipher}801cfe287ce731bd96d9d62d974973adfc6ddf3b87adb8820940f132932c1aa0'
       expiration: 7200
       remember-me-expiration: 604800
-      salt: f817fcf6-f6af-4c95-89fe-637838078bc9
+      salt: '{cipher}6771b753ed1af779b545bf888bd8c333d31b8b836b2dbd25bc8f0b683ea1654e12830d6ffff423524fe2ff09c18d36dddac351b5a5eae20f23ad42a2dd11d20d'
       redirect: http://www.mifanxing.com/
     wxpay:
       mchID: 1488379182
       notify-url: https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
-      key: mifanxingsongningbo1234588888888
+      key: '{cipher}32bf7f6aa22650afd21c0c2f0a4b3128dac4e2437baa2979ffb3a6127e372355927a03148052c16e4c40a81a156e42436f08851f39b5e6dd566a58b6b533dd93'
       send-name: 米饭星
       wishing: 想了解更多音频知识，请关注·米饭星·~~
       client-ip: 121.42.161.53
@@ -213,8 +213,8 @@ moon:
   jsch:
     host: 192.168.1.248
     port: 22
-    user: root
-    password: budee123
+    user: '{cipher}3e61283a320530bdc597a3affac5a1f936bd820b55d891adafcfa89e2d17afbf'
+    password: '{cipher}4886b46b986a6660a7772c8ff180beb1b81c93b1ea5db96733b6a2ad0e855e1b'
     known-hosts: 192.168.1.248 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgkGQV57yZty+wjOdGL40+r7GBgjDHFt8q+O7KDa4lODPGZyBSnoKumsy8n4EX/mTLaGzhArWMGq2Vkxw9GxEL80kT3mrwFR1WMbHO6tzCfMGm/DiUONyP1kq9/bxTcwAUulYnVZZMdNBkSyf0T509fAB8OOjIL+2RHYmqNYU49UiFajhQLGW3BJ4scPaLdr3cq1hboKDkD53wZzDrzCXQlZmr/Fgu9FNKGGwHlBhwuEZJts94R6ACHjETLe5r5r5Ni1t/C5YL6slFNd+Tb89MxIQcO8YDD9i25V3VfnqMr2V0uW0JhWAb1hS6AQjod23yixFYN0pLP4ye0KJ4ABQH
     strict-host-key-checking: true
   rabbitmq:
@@ -222,7 +222,7 @@ moon:
   security:
     cas:
       filter:
-        filter: d1b914ef-2908-45db-adf2-dd8ceffe61af
+        filter: '{cipher}1d50712ad44f8951158470585a7eb9114c2c7341fe23b1b2ce4a68d8ea2caa4f3c817afd9d9b085aff4096fd024ca64bff0392f11f143ecef0417612215c1e9b'
 
 ##############
 ### Config ###
