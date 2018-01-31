@@ -1,4 +1,4 @@
-########################################################
+ï»¿########################################################
 ### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
 ########################################################
 server:
@@ -17,10 +17,10 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: none
-  datasource:                                                 # Ö¸¶¨Êı¾İÔ´
+  datasource:                                                 # æŒ‡å®šæ•°æ®æº
     initialize: false
-    schema: classpath:schema.sql                              # Ö¸¶¨Êı¾İ¿âµÄ½¨±í½Å±¾
-    data: classpath:data.sql                                  # Ö¸¶¨Êı¾İ¿âµÄÊı¾İ½Å±¾
+    schema: classpath:schema.sql                              # æŒ‡å®šæ•°æ®åº“çš„å»ºè¡¨è„šæœ¬
+    data: classpath:data.sql                                  # æŒ‡å®šæ•°æ®åº“çš„æ•°æ®è„šæœ¬
     url: jdbc:mariadb://192.168.1.138:3306/mifan_user_center?useUnicode=true&autoReconnect=true
     username: root
     password: budee123
@@ -60,11 +60,11 @@ security:
 logging:
   level:
     root: INFO
-    org.hibernate: INFO                                       # ÅäÖÃÈÕÖ¾¼¶±ğ£¬ÈÃhibernate´òÓ¡³öÖ´ĞĞµÄSQL
+    org.hibernate: INFO                                       # é…ç½®æ—¥å¿—çº§åˆ«ï¼Œè®©hibernateæ‰“å°å‡ºæ‰§è¡Œçš„SQL
     org.springframework.web: INFO
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
-    org.springframework.cloud.commons.util.InetUtils: TRACE   # ¿ªÆôÕâ±ßµÄÈÕÖ¾£¬¿ÉÒÔ´òÓ¡³öSpring²éÕÒÍø¿¨µÄ¹ı³Ì
+    org.springframework.cloud.commons.util.InetUtils: TRACE   # å¼€å¯è¿™è¾¹çš„æ—¥å¿—ï¼Œå¯ä»¥æ‰“å°å‡ºSpringæŸ¥æ‰¾ç½‘å¡çš„è¿‡ç¨‹
 
 ##############
 ### EUREKA ###
@@ -93,11 +93,11 @@ moon:
       mchID: 1488379182
       notifyUrl: https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
       key: mifanxingsongningbo1234588888888
-      sendName: Ã×·¹ĞÇ
-      wishing: ÏëÁË½â¸ü¶àÒôÆµÖªÊ¶£¬Çë¹Ø×¢¡¤Ã×·¹ĞÇ¡¤~~
+      sendName: ç±³é¥­æ˜Ÿ
+      wishing: æƒ³äº†è§£æ›´å¤šéŸ³é¢‘çŸ¥è¯†ï¼Œè¯·å…³æ³¨Â·ç±³é¥­æ˜ŸÂ·~~
       clientIp: 121.42.161.53
-      actName: Ã×·¹ĞÇ¡¤×¢²áËÍºì°ü
-      remark: Ã»ÓĞ±¸×¢
+      actName: ç±³é¥­æ˜ŸÂ·æ³¨å†Œé€çº¢åŒ…
+      remark: æ²¡æœ‰å¤‡æ³¨
       totalNum: 1
       certPath: D://cert/apiclient_cert.p12
       redirect: http://www.mifanxing.com/Wregisterresult/
