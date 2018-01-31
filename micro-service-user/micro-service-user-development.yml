@@ -7,8 +7,8 @@ spring:
     schema: classpath:schema.sql                              # 指定数据库的建表脚本
     data: classpath:data.sql                                  # 指定数据库的数据脚本
     url: jdbc:mariadb://192.168.1.138:3306/mifan_user_center?useUnicode=true&autoReconnect=true
-    username: aa
-    password: bb
+    username: '{cipher}ee0f47d79c7962d74bf05e5227c7d85c8b68cba4dadc25bdf41e1a0196a4a27c'
+    password: '{cipher}d2d4229be8bd6ee1b5b525aaaa379afadd194fcad6dfc75efe73bf7762574c80'
     driver-class-name: org.mariadb.jdbc.Driver
     tomcat:
       max-active: 100
