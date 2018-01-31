@@ -1,1 +1,24 @@
-
+##############
+### SPRING ###
+##############
+spring:
+  datasource:                                                 # 指定数据源
+    initialize: false
+    schema: classpath:schema.sql                              # 指定数据库的建表脚本
+    data: classpath:data.sql                                  # 指定数据库的数据脚本
+    url: jdbc:mariadb://192.168.1.138:3306/mifan_user_center?useUnicode=true&autoReconnect=true
+    username: aa
+    password: bb
+    driver-class-name: org.mariadb.jdbc.Driver
+    tomcat:
+      max-active: 100
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+      initial-size: 10
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 30000
