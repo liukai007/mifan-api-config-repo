@@ -14,7 +14,7 @@ spring:
     name: micro-service-user
   jpa:
     generate-ddl: false
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
   datasource:                                                 # 指定数据源
@@ -22,8 +22,8 @@ spring:
     schema: classpath:schema.sql                              # 指定数据库的建表脚本
     data: classpath:data.sql                                  # 指定数据库的数据脚本
     url: jdbc:mariadb://192.168.1.138:3306/mifan_user_center?useUnicode=true&autoReconnect=true
-    username: root
-    password: budee123
+    username: '{cipher}ee0f47d79c7962d74bf05e5227c7d85c8b68cba4dadc25bdf41e1a0196a4a27c'
+    password: '{cipher}d2d4229be8bd6ee1b5b525aaaa379afadd194fcad6dfc75efe73bf7762574c80'
     driver-class-name: org.mariadb.jdbc.Driver
     tomcat:
       max-active: 100
@@ -40,8 +40,8 @@ spring:
   rabbitmq:
     host: 192.168.1.138
     port: 5672
-    username: rabbitmq
-    password: rabbitmq
+    username: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
+    password: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
   redis:
     host: 192.168.1.138
     port: 6379
@@ -56,8 +56,8 @@ security:
   basic:
     enabled: false
   user:
-    name: user
-    password: user
+    name: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
+    password: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
 
 ###############
 ### LOGGING ###
@@ -71,16 +71,6 @@ logging:
     org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
     org.springframework.cloud.commons.util.InetUtils: TRACE   # 开启这边的日志，可以打印出Spring查找网卡的过程
 
-##############
-### EUREKA ###
-##############
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: http://mifan:Mifan2017!@localhost:8761/eureka/
-
 ########################
 ### APPLICATION CORE ###
 ########################
@@ -89,15 +79,15 @@ moon:
     token:
       token-header: Authorization
       token-head: Bearer
-      secret: budee123
+      secret: '{cipher}217dc7745c7d909b49c2f3ed2910d204e2e1f07f9209a5466f56f038e9fdc280'
       expiration: 7200
       remember-me-expiration: 604800
-      salt: f817fcf6-f6af-4c95-89fe-637838078bc9
+      salt: '{cipher}5227e37982548a2ba359053dc03ed4110c028d051cf136416156babac0b483c9ec3c169790e46352e0b599c6227e554dd9def7f1f7780611ae36af2ae8336797'
       redirect: http://www.mifanxing.com/
     wxpay:
       mchID: 1488379182
       notifyUrl: https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
-      key: mifanxingsongningbo1234588888888
+      key: '{cipher}ab16f713d1f794a46f20dcc63d318b6ecdf7b92f671e5b2a0e093e9139e292d3595bb7270f5f8ab75820e1266f4571c8918be8b7b3b608401368de245ec2f96e'
       sendName: 米饭星
       wishing: 想了解更多音频知识，请关注·米饭星·~~
       clientIp: 121.42.161.53
@@ -109,7 +99,7 @@ moon:
   security:
     cas:
       filter:
-        appKey: d1b914ef-2908-45db-adf2-dd8ceffe61af
+        appKey: '{cipher}985cfc699e8319d075ec9bef2d2020974517ecb19ca4ba74ecd03ce3564a96178d4e3b562f9a57f2769dfc896f5c219788c1eef8db9e241cec30ec145d04a763'
   model:
     mybatis:
       config-location: com/mifan/user/mybatis-config.xml
