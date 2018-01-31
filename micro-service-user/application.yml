@@ -79,7 +79,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://mifan:Mifan2017!@localhost:8761/eureka/
+      defaultZone: http://'{cipher}46dd0f49faa301a82d45da8b65ef92bd2c8899207fb6b832d633c64054be2adf':'{cipher}335671e72782a3c16c3817f617b9ab92b53df6632c27bc4d37a26e67b98e720d'@localhost:8761/eureka/
 
 ########################
 ### APPLICATION CORE ###
