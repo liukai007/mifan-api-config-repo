@@ -24,8 +24,3 @@ spring:
       test-while-idle: true
       time-between-eviction-runs-millis: 3000
       min-evictable-idle-time-millis: 30000
-  zipkin:
-    base-url: http://localhost:9411
-  sleuth:
-    sampler:
-      percentage: 1.0
