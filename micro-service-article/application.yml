@@ -130,6 +130,10 @@ ribbon:
 ### APPLICATION CORE ###
 ########################
 moon:
+  data:
+    elasticsearch:
+      host: 192.168.1.138
+      timeout: 5
   amqp:
     rabbit:
       remote-exchange: remote.direct.exchange2
