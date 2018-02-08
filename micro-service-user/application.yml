@@ -71,6 +71,15 @@ logging:
     org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
     org.springframework.cloud.commons.util.InetUtils: TRACE   # 开启这边的日志，可以打印出Spring查找网卡的过程
 
+##############
+### EUREKA ###
+##############
+### eureka.client.healthcheck.enabled=true should only be set in application.yml. Setting the value in bootstrap.yml will cause undesirable side effects like registering in eureka with an UNKNOWN status.
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+
 ########################
 ### APPLICATION CORE ###
 ########################
