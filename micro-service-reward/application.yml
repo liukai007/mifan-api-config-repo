@@ -54,8 +54,8 @@ security:
   basic:
     enabled: false
   user:
-    name: user
-    password: user
+    name: '{cipher}8c243b68c323afab772b44916a2fe15eba188e650521d5a3f87eec984926aec6'
+    password: '{cipher}8c243b68c323afab772b44916a2fe15eba188e650521d5a3f87eec984926aec6'
 
 ###############
 ### LOGGING ###
@@ -65,9 +65,9 @@ logging:
     root: INFO
     org.hibernate: INFO                                       # 配置日志级别，让hibernate打印出执行的SQL
     org.springframework.web: INFO
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
-    org.springframework.cloud.commons.util.InetUtils: TRACE   # 开启这边的日志，可以打印出Spring查找网卡的过程
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    org.hibernate.type.descriptor.sql.BasicExtractor: INFO
+    org.springframework.cloud.commons.util.InetUtils: INFO    # 开启这边的日志，可以打印出Spring查找网卡的过程
 
 ##############
 ### EUREKA ###
@@ -83,31 +83,6 @@ eureka:
 ### APPLICATION CORE ###
 ########################
 moon:
-  data:
-    token:
-      token-header: Authorization
-      token-head: Bearer
-      secret: budee123
-      expiration: 7200
-      remember-me-expiration: 604800
-      salt: f817fcf6-f6af-4c95-89fe-637838078bc9
-      redirect: http://www.mifanxing.com/
-    wxpay:
-      mchID: 1488379182
-      notifyUrl: https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
-      key: mifanxingsongningbo1234588888888
-      sendName: 米饭星
-      wishing: 想了解更多音频知识，请关注·米饭星·~~
-      clientIp: 121.42.161.53
-      actName: 米饭星·注册送红包
-      remark: 没有备注
-      totalNum: 1
-      certPath: D://cert/apiclient_cert.p12
-      redirect: http://www.mifanxing.com/Wregisterresult/
-  security:
-    cas:
-      filter:
-        appKey: d1b914ef-2908-45db-adf2-dd8ceffe61af
   model:
     mybatis:
       config-location: com/mifan/reward/mybatis-config.xml
@@ -118,12 +93,6 @@ moon:
 ##########################
 ### APPLICATION CONFIG ###
 ##########################
-mifan:
-  proxy:
-    isUse: false
-    server: 192.168.1.138
-    port: 3128
-
 application:
   idworker:
     workerId: 4
