@@ -9,28 +9,6 @@ server:
 ##############
 ### SPRING ###
 ##############
-article:
-  datasource:
-    initialize: false
-    schema: classpath:/sql/schema-article.sql
-    data: classpath:/sql/data-article.sql
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://192.168.1.138:3306/mifan_article?useUnicode=true&autoReconnect=true
-    username: '{cipher}198cfa54f50fb7c0046b9d4df1933262591eb9c72cf28da98b993715bdd6c5d1'
-    password: '{cipher}801cfe287ce731bd96d9d62d974973adfc6ddf3b87adb8820940f132932c1aa0'
-    tomcat:
-      max-wait: 60000
-      max-active: 100
-      max-idle: 8
-      min-idle: 1
-      initial-size: 10
-      validation-query: SELECT 1 FROM DUAL
-      test-on-borrow: false
-      test-on-return: false
-      test-while-idle: true
-      time-between-eviction-runs-millis: 3000
-      min-evictable-idle-time-millis: 30000
-
 spring:
   application:
     name: micro-service-article
@@ -52,9 +30,9 @@ spring:
       ddl-auto: none
   datasource:                                                 # 指定数据源
     initialize: false
-    schema: classpath:schema.sql                              # 指定数据库的建表脚本
-    data: classpath:data.sql                                  # 指定数据库的数据脚本
-    url: jdbc:mariadb://192.168.1.138:3306/mifan_article_center?useUnicode=true&autoReconnect=true
+    schema: classpath:/sql/schema-article.sql                             # 指定数据库的建表脚本
+    data: classpath:/sql/data-article.sql                                # 指定数据库的数据脚本
+    url: jdbc:mariadb://192.168.1.138:3306/mifan_article?useUnicode=true&autoReconnect=true
     username: '{cipher}ee0f47d79c7962d74bf05e5227c7d85c8b68cba4dadc25bdf41e1a0196a4a27c'
     password: '{cipher}d2d4229be8bd6ee1b5b525aaaa379afadd194fcad6dfc75efe73bf7762574c80'
     driver-class-name: org.mariadb.jdbc.Driver
