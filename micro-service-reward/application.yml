@@ -83,6 +83,9 @@ eureka:
 ### APPLICATION CORE ###
 ########################
 moon:
+  data:
+    token:
+      salt: '{cipher}5227e37982548a2ba359053dc03ed4110c028d051cf136416156babac0b483c9ec3c169790e46352e0b599c6227e554dd9def7f1f7780611ae36af2ae8336797'
   model:
     mybatis:
       config-location: com/mifan/reward/mybatis-config.xml
