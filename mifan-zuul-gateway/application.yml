@@ -1,0 +1,117 @@
+﻿########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 8101
+  session:
+    timeout: 28800
+
+##############
+### SPRING ###
+##############
+spring:
+  application:
+    name: micro-service-zuul-gateway
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: false
+  user:
+    name: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
+    password: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
+
+###############
+### LOGGING ###
+###############
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud: INFO
+    org.springframework.boot: INFO
+
+############
+### ZUUL ###
+############
+zuul:
+  host: # http://cloud.spring.io/spring-cloud-static/Edgware.RELEASE/single/spring-cloud.html#_zuul_timeouts
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
+  ignoredPatterns: /**/admin-test/**
+  routes:
+    route-article:
+      path: /article/**
+      serviceId: micro-service-article
+      sensitiveHeaders:
+    route-award:
+      path: /award/**
+      serviceId: micro-service-award
+      sensitiveHeaders:
+    route-quiz:
+      path: /quiz/**
+      serviceId: micro-service-quiz
+      sensitiveHeaders:
+    route-reward:
+      path: /reward/**
+      serviceId: micro-service-reward
+      sensitiveHeaders:
+    route-support:
+      path: /support/**
+      serviceId: micro-service-support
+      sensitiveHeaders:
+    route-user:
+      path: /user/**
+      serviceId: micro-service-user
+      sensitiveHeaders:
+
+# http://cloud.spring.io/spring-cloud-static/Edgware.RELEASE/single/spring-cloud.html#_uploading_files_through_zuul
+# https://github.com/Netflix/Hystrix/wiki/Configuration#execution.isolation.thread.timeoutInMilliseconds
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-article:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-award:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-quiz:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-reward:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-support:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-user:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+  SocketTimeout: 60000
+
+
