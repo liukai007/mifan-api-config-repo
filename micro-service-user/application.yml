@@ -56,8 +56,8 @@ security:
   basic:
     enabled: false
   user:
-    name: '{cipher}7a696f2784598274526281a46c2ad71664d74fe4480108059b8402349e27031d'
-    password: '{cipher}7a696f2784598274526281a46c2ad71664d74fe4480108059b8402349e27031d'
+    name: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
+    password: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
 
 ###############
 ### LOGGING ###
