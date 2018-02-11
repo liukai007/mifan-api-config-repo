@@ -1,26 +1,21 @@
-myValue: 测试刷新
+##############
+### EUREKA ###
+##############
+# eureka.client.healthcheck.enabled=true should only be set in application.yml. Setting the value in bootstrap.yml will cause undesirable side effects like registering in eureka with an UNKNOWN status.
+eureka:
+  client:
+    healthcheck:
+      enabled: true                             # 开启健康检查
+  instance:
+    lease-expiration-duration-in-seconds: 30    # 续约到期时间
+    lease-renewal-interval-in-seconds: 10       # 续约更新时间间隔
 
 ##############
-### SPRING ###
+### Zipkin ###
 ##############
+# If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it’s omitting some spans.
+# Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there’s no support for 0.1% of the traces).
 spring:
-  datasource:                                                 # 指定数据源
-    initialize: false
-    schema: classpath:schema.sql                              # 指定数据库的建表脚本
-    data: classpath:data.sql                                  # 指定数据库的数据脚本
-    url: jdbc:mariadb://192.168.1.138:3306/mifan_user_center?useUnicode=true&autoReconnect=true
-    username: '{cipher}ee0f47d79c7962d74bf05e5227c7d85c8b68cba4dadc25bdf41e1a0196a4a27c'
-    password: '{cipher}d2d4229be8bd6ee1b5b525aaaa379afadd194fcad6dfc75efe73bf7762574c80'
-    driver-class-name: org.mariadb.jdbc.Driver
-    tomcat:
-      max-active: 100
-      max-wait: 60000
-      max-idle: 8
-      min-idle: 1
-      initial-size: 10
-      validation-query: SELECT 1 FROM DUAL
-      test-on-borrow: false
-      test-on-return: false
-      test-while-idle: true
-      time-between-eviction-runs-millis: 3000
-      min-evictable-idle-time-millis: 30000
+  sleuth:
+    sampler:
+      percentage: 1.0
