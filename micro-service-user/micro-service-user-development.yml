@@ -21,4 +21,4 @@ spring:
       percentage: 1.0
 
 
-myValue: 测试刷新配置
+myValue: 测试刷新配置1
