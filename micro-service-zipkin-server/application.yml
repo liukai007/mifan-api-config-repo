@@ -35,7 +35,7 @@ spring:
 ###########################
 security:
   basic:
-    enabled: false
+    enabled: true
   user:
     name: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
     password: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
