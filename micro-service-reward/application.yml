@@ -10,6 +10,17 @@ server:
 ### SPRING ###
 ##############
 spring:
+  aop:
+    auto: true                                          # Add @EnableAspectJAutoProxy.
+    proxy-target-class: false                           # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false).
+  http:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      location:
+      max-file-size: 1MB
+      max-request-size: 10MB
+      resolve-lazily: false
   jpa:
     generate-ddl: false
     show-sql: true
@@ -41,6 +52,7 @@ spring:
     username: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
     password: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'  
   redis:
+    database: 0
     host: 192.168.1.138
     port: 6379
   output:
@@ -69,15 +81,37 @@ logging:
     org.hibernate.type.descriptor.sql.BasicExtractor: INFO
     org.springframework.cloud.commons.util.InetUtils: INFO    # 开启这边的日志，可以打印出Spring查找网卡的过程
 
-##############
-### EUREKA ###
-##############
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: http://mifan:Mifan2017!@localhost:8761/eureka/
+#############
+### FEIGN ###
+#############
+feign:
+  httpclient:
+    connection-timeout: 10000
+  hystrix:
+    enabled: true
+
+############################# To set thread isolation to SEMAPHORE,
+### FEIGN HYSTRIX SUPPORT ### RequestContextHolder.getRequestAttributes() read from Thread Local, so need to set hystrix isolation strategy to SEMAPHORE
+#############################
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-user:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 60000
+  SocketTimeout: 60000
 
 ########################
 ### APPLICATION CORE ###
@@ -100,3 +134,11 @@ application:
   idworker:
     workerId: 4
     datacenterId: 4
+  scheduler:
+    enable:
+      prize: false
+mifan:
+  proxy:
+    isUse: false
+    server: 192.168.1.229
+    port: 3128
