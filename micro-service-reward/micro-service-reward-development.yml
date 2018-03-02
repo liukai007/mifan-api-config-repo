@@ -24,14 +24,50 @@ spring:
 ### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
 ########################################################
 server:
-  port: 9092
+  port: 9091
+  session:
+    timeout: 28800
 
 ##############
 ### SPRING ###
 ##############
 spring:
+  aop:
+    auto: true                                          # Add @EnableAspectJAutoProxy.
+    proxy-target-class: false                           # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false).
+  http:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      location:
+      max-file-size: 1MB
+      max-request-size: 10MB
+      resolve-lazily: false
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
   datasource:                                                 # 指定数据源
+    initialize: false
+    schema:                               # 指定数据库的建表脚本
+    data:                                   # 指定数据库的数据脚本
     url: jdbc:mariadb://192.168.1.138:3306/mifan_reward?useUnicode=true&autoReconnect=true
+    username: root
+    password: budee123
+    driver-class-name: org.mariadb.jdbc.Driver
+    tomcat:
+      max-active: 100
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+      initial-size: 10
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 30000
   rabbitmq:
     host: 192.168.1.138
     port: 5672
@@ -41,6 +77,77 @@ spring:
     database: 0
     host: 192.168.1.138
     port: 6379
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: false
+  user:
+    name: '{cipher}8c243b68c323afab772b44916a2fe15eba188e650521d5a3f87eec984926aec6'
+    password: '{cipher}8c243b68c323afab772b44916a2fe15eba188e650521d5a3f87eec984926aec6'
+
+###############
+### LOGGING ###
+###############
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO                                       # 配置日志级别，让hibernate打印出执行的SQL
+    org.springframework.web: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    org.hibernate.type.descriptor.sql.BasicExtractor: INFO
+    org.springframework.cloud.commons.util.InetUtils: INFO    # 开启这边的日志，可以打印出Spring查找网卡的过程
+
+#############
+### FEIGN ###
+#############
+feign:
+  httpclient:
+    connection-timeout: 10000
+  hystrix:
+    enabled: true
+
+############################# To set thread isolation to SEMAPHORE,
+### FEIGN HYSTRIX SUPPORT ### RequestContextHolder.getRequestAttributes() read from Thread Local, so need to set hystrix isolation strategy to SEMAPHORE
+#############################
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-user:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+
+ribbon:
+  ConnectTimeout: 10000
+  ReadTimeout: 60000
+  SocketTimeout: 60000
+
+########################
+### APPLICATION CORE ###
+########################
+moon:
+  data:
+    token:
+      salt: '{cipher}5227e37982548a2ba359053dc03ed4110c028d051cf136416156babac0b483c9ec3c169790e46352e0b599c6227e554dd9def7f1f7780611ae36af2ae8336797'
+  model:
+    mybatis:
+      config-location: com/mifan/reward/mybatis-config.xml
+  web:
+    micro-service:
+      enabled: true
 
 ##########################
 ### APPLICATION CONFIG ###
