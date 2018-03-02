@@ -1,0 +1,48 @@
+########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 9411
+  session:
+    timeout: 28800
+
+##############
+### SPRING ###
+##############
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    schema: classpath:/mysql.sql
+    url: jdbc:mariadb://192.168.1.138:3306/mifan_trace?useUnicode=true&autoReconnect=true
+    username: '{cipher}ee0f47d79c7962d74bf05e5227c7d85c8b68cba4dadc25bdf41e1a0196a4a27c'
+    password: '{cipher}d2d4229be8bd6ee1b5b525aaaa379afadd194fcad6dfc75efe73bf7762574c80'
+    # Switch this on to create the schema on startup:
+    initialize: false
+    continueOnError: true
+  rabbitmq:
+    host: 192.168.1.138
+    port: 5672
+    username: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
+    password: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
+  sleuth:
+    enabled: false
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: true
+  user:
+    name: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
+    password: '{cipher}a2596a8e905afe23feefcecd40f01dc3fa56b44c5f8891bd44d55e1f7e8c6f07'
+
+##############
+### ZIPKIN ###
+##############
+zipkin:
+  storage:
+    type: mysql
