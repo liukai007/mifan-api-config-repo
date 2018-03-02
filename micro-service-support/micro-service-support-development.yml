@@ -10,12 +10,126 @@ eureka:
     lease-expiration-duration-in-seconds: 30    # 续约到期时间
     lease-renewal-interval-in-seconds: 10       # 续约更新时间间隔
 
+########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 8098
+  session:
+    timeout: 28800
+
 ##############
-### Zipkin ###
+### SPRING ###
 ##############
-# If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it’s omitting some spans.
-# Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there’s no support for 0.1% of the traces).
 spring:
+  ##############
+  ### Zipkin ###
+  ##############
+  # If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it’s omitting some spans.
+  # Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there’s no support for 0.1% of the traces).
   sleuth:
     sampler:
       percentage: 1.0
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:                                                 # 指定数据源
+    initialize: false
+    schema: classpath:schema.sql                              # 指定数据库的建表脚本
+    data: classpath:data.sql                                  # 指定数据库的数据脚本
+    url: jdbc:mariadb://192.168.1.138:3306/mifan_support?useUnicode=true&autoReconnect=true
+    username: '{cipher}6caf6546eaeab47e5ef756357a90c7fc0efc9830bca4d7d557383e40e6e95756'
+    password: '{cipher}752eefd060221555985645fccb51b9b9a3f939e6a425aae22f90632fb3629fd9'
+    driver-class-name: org.mariadb.jdbc.Driver
+    tomcat:
+      max-active: 100
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+      initial-size: 10
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 30000
+  rabbitmq:
+    host: 192.168.1.138
+    port: 5672
+    username: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
+    password: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
+  redis:
+    host: 192.168.1.138
+    port: 6379
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: false
+  user:
+    name: '{cipher}8c243b68c323afab772b44916a2fe15eba188e650521d5a3f87eec984926aec6'
+    password: '{cipher}8c243b68c323afab772b44916a2fe15eba188e650521d5a3f87eec984926aec6'
+
+###############
+### LOGGING ###
+###############
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO                                       # 配置日志级别，让hibernate打印出执行的SQL
+    org.springframework.web: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    org.hibernate.type.descriptor.sql.BasicExtractor: INFO
+    org.springframework.cloud.commons.util.InetUtils: INFO    # 开启这边的日志，可以打印出Spring查找网卡的过程
+
+#############
+### FEIGN ###
+#############
+feign:
+  httpclient:
+    connection-timeout: 10000
+  hystrix:
+    enabled: true
+
+############################# To set thread isolation to SEMAPHORE,
+### FEIGN HYSTRIX SUPPORT ### RequestContextHolder.getRequestAttributes() read from Thread Local, so need to set hystrix isolation strategy to SEMAPHORE
+#############################
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+    micro-service-user:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+
+########################
+### APPLICATION CORE ###
+########################
+moon:
+  data:
+    token:
+      salt: '{cipher}5227e37982548a2ba359053dc03ed4110c028d051cf136416156babac0b483c9ec3c169790e46352e0b599c6227e554dd9def7f1f7780611ae36af2ae8336797'
+  model:
+    mybatis:
+      config-location: com/mifan/support/mybatis-config.xml
+  web:
+    micro-service:
+      enabled: true
+
+##########################
+### APPLICATION CONFIG ###
+##########################
