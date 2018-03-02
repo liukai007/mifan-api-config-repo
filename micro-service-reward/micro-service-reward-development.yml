@@ -14,7 +14,7 @@ eureka:
 ### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
 ########################################################
 server:
-  port: 9092
+  port: 9091
   session:
     timeout: 28800
 
