@@ -10,16 +10,6 @@ eureka:
     lease-expiration-duration-in-seconds: 30    # 续约到期时间
     lease-renewal-interval-in-seconds: 10       # 续约更新时间间隔
 
-##############
-### Zipkin ###
-##############
-# If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it’s omitting some spans.
-# Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there’s no support for 0.1% of the traces).
-spring:
-  sleuth:
-    sampler:
-      percentage: 1.0
-
 ########################################################
 ### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
 ########################################################
@@ -34,7 +24,8 @@ server:
 spring:
   aop:
     auto: true                                          # Add @EnableAspectJAutoProxy.
-    proxy-target-class: false                           # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false).
+    proxy-target-class: false                           # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false)
+
   http:
     multipart:
       enabled: true
@@ -80,6 +71,14 @@ spring:
   output:
     ansi:
       enabled: always
+##############
+### Zipkin ###
+##############
+# If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it’s omitting some spans.
+# Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there’s no support for 0.1% of the traces).
+  sleuth:
+    sampler:
+      percentage: 1.0
 
 ###########################
 ### SECURITY PROPERTIES ###
