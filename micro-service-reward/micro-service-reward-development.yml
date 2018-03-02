@@ -19,3 +19,41 @@ spring:
   sleuth:
     sampler:
       percentage: 1.0
+
+########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 9092
+
+##############
+### SPRING ###
+##############
+spring:
+  datasource:                                                 # 指定数据源
+    url: jdbc:mariadb://192.168.1.138:3306/mifan_reward?useUnicode=true&autoReconnect=true
+  rabbitmq:
+    host: 192.168.1.138
+    port: 5672
+    username: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
+    password: '{cipher}c473d35322c2826fe0cd5f169d3a2e7b656b2f8940830ed2e4bdc694bc9b5324'
+  redis:
+    database: 0
+    host: 192.168.1.138
+    port: 6379
+
+##########################
+### APPLICATION CONFIG ###
+##########################
+application:
+  idworker:
+    workerId: 4
+    datacenterId: 4
+  scheduler:
+    enable:
+      prize: false
+mifan:
+  proxy:
+    isUse: false
+    server: 192.168.1.229
+    port: 3128
