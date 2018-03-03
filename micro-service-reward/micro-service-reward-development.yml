@@ -77,6 +77,12 @@ spring:
     database: 0
     host: 192.168.1.138
     port: 6379
+    timeout: 0
+    pool:
+      max-active: 800
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
   output:
     ansi:
       enabled: always
