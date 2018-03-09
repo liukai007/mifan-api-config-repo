@@ -204,7 +204,7 @@ application:
     baseUrl: http://static.budee.com/yyren/image/
   scheduler:
     enable:
-      index: false
+      index: true
       translation: false
       update:
         timer: false
