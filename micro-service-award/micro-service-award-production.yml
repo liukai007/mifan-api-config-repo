@@ -1,9 +1,150 @@
 ##############
-### Zipkin ###
+### EUREKA ###
 ##############
-# If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it��s omitting some spans.
-# Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there��s no support for 0.1% of the traces).
+# eureka.client.healthcheck.enabled=true should only be set in application.yml. Setting the value in bootstrap.yml will cause undesirable side effects like registering in eureka with an UNKNOWN status.
+eureka:
+  client:
+    healthcheck:
+      enabled: false                             # 开启健康检查
+  instance:
+    lease-expiration-duration-in-seconds: 30    # 续约到期时间
+    lease-renewal-interval-in-seconds: 10       # 续约更新时间间隔
+
+########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 8851
+  session:
+    timeout: 28800
+
+##############
+### SPRING ###
+##############
 spring:
+  ##############
+  ### Zipkin ###
+  ##############
+  # If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it��s omitting some spans.
+  # Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there��s no support for 0.1% of the traces).
   sleuth:
     sampler:
       percentage: 0.1
+  application:
+    name: micro-service-award
+  aop:
+    auto: true                                          # Add @EnableAspectJAutoProxy.
+    proxy-target-class: false                           # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false).
+  http:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      location:
+      max-file-size: 1MB
+      max-request-size: 10MB
+      resolve-lazily: false
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  redis:
+    database: 0
+    host: 10.31.40.4
+    port: 6379
+    timeout: 0
+    pool:
+      max-active: 800
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+  data:
+    mongodb:
+      host: 10.31.40.4
+      port: 27017
+      database: award
+      username: '{cipher}545b3995ddd39d4058b1feb8dd160f995ed2dcc1a9156392778768965573e869'
+      password: '{cipher}696c1b124b662fc0e950e3416627bcbf80b457163991474f6605eea497ad544d'
+      repositories:
+        enabled: true
+  rabbitmq:
+    host: 10.31.236.67
+    port: 5672
+    username: '{cipher}52fe7636edaffe0c51b2ca260242dd893e42b78e7b16fd1b3d47935fae8f2827'
+    password: '{cipher}7e476c464747a8e971a943f0dede1ee6cf486be67721e5d1dfcd8748d01db1c9'
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: false
+  user:
+    name: '{cipher}8f3f803c47eb5f10ed8ef634d368ecc3ffbba9e4f1a8586294aa1b00184dbcd2'
+    password: '{cipher}f9621ba1d0b0fec59454052ad379df2703953a9caa7bfb0957af50c570e03cfb'
+
+###############
+### LOGGING ###
+###############
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO                                       # 配置日志级别，让hibernate打印出执行的SQL
+    org.springframework.web: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    org.hibernate.type.descriptor.sql.BasicExtractor: INFO
+    org.springframework.cloud.commons.util.InetUtils: INFO    # 开启这边的日志，可以打印出Spring查找网卡的过程
+
+#############
+### FEIGN ###
+#############
+feign:
+  httpclient:
+    connection-timeout: 1000
+  hystrix:
+    enabled: true
+
+############################# To set thread isolation to SEMAPHORE,
+### FEIGN HYSTRIX SUPPORT ### RequestContextHolder.getRequestAttributes() read from Thread Local, so need to set hystrix isolation strategy to SEMAPHORE
+#############################
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 6000
+    micro-service-user:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 6000
+
+ribbon:
+  ConnectTimeout: 1000
+  ReadTimeout: 6000
+  SocketTimeout: 6000
+
+########################
+### Application Core ###
+########################
+moon:
+  data:
+    token:
+      salt: '{cipher}5227e37982548a2ba359053dc03ed4110c028d051cf136416156babac0b483c9ec3c169790e46352e0b599c6227e554dd9def7f1f7780611ae36af2ae8336797'
+
+##########################
+### APPLICATION CONFIG ###
+##########################
+application:
+  idworker:
+    workerId: 2
+    datacenterId: 2
+  scheduler:
+    enable:
+      prize: true

@@ -1,9 +1,155 @@
 ##############
-### Zipkin ###
+### EUREKA ###
 ##############
-# If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it��s omitting some spans.
-# Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there��s no support for 0.1% of the traces).
+# eureka.client.healthcheck.enabled=true should only be set in application.yml. Setting the value in bootstrap.yml will cause undesirable side effects like registering in eureka with an UNKNOWN status.
+eureka:
+  client:
+    healthcheck:
+      enabled: false                             # 开启健康检查
+  instance:
+    lease-expiration-duration-in-seconds: 30    # 续约到期时间
+    lease-renewal-interval-in-seconds: 10       # 续约更新时间间隔
+
+########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 8811
+  session:
+    timeout: 28800
+
+##############
+### SPRING ###
+##############
 spring:
+  ##############
+  ### Zipkin ###
+  ##############
+  # If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it’s omitting some spans.
+  # Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there’s no support for 0.1% of the traces).
   sleuth:
     sampler:
-      percentage: 0.1
+      percentage: 1.0
+  application:
+    name: micro-service-user
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  datasource:                                                 # 指定数据源
+    initialize: false
+    schema: classpath:schema.sql                              # 指定数据库的建表脚本
+    data: classpath:data.sql                                  # 指定数据库的数据脚本
+    url: jdbc:mariadb://10.31.40.4:3306/mifan_user_center?useUnicode=true&autoReconnect=true
+    username: '{cipher}ee0f47d79c7962d74bf05e5227c7d85c8b68cba4dadc25bdf41e1a0196a4a27c'
+    password: '{cipher}d2d4229be8bd6ee1b5b525aaaa379afadd194fcad6dfc75efe73bf7762574c80'
+    driver-class-name: org.mariadb.jdbc.Driver
+    max-active: 1000
+    max-idle: 8
+    min-idle: 1
+    initial-size: 10
+    validation-query=: SELECT 'x' FROM DUAL
+    test-on-borrow: true
+    test-on-return: false
+    test-while-idle: true
+    time-between-eviction-runs-millis: 3000
+    min-evictable-idle-time-millis: 30000
+    max-wait: 60000
+    tomcat:
+      max-active: 100
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+      initial-size: 10
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 30000
+  rabbitmq:
+    host: 10.31.236.67
+    port: 5672
+    username: '{cipher}52fe7636edaffe0c51b2ca260242dd893e42b78e7b16fd1b3d47935fae8f2827'
+    password: '{cipher}7e476c464747a8e971a943f0dede1ee6cf486be67721e5d1dfcd8748d01db1c9'
+  redis:
+    host: 10.31.40.4
+    port: 6379
+    database: 0
+    timeout: 0
+    pool:
+      max-active: 800
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: false
+  user:
+    name: '{cipher}8f3f803c47eb5f10ed8ef634d368ecc3ffbba9e4f1a8586294aa1b00184dbcd2'
+    password: '{cipher}f9621ba1d0b0fec59454052ad379df2703953a9caa7bfb0957af50c570e03cfb'
+
+###############
+### LOGGING ###
+###############
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO                                       # 配置日志级别，让hibernate打印出执行的SQL
+    org.springframework.web: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    org.hibernate.type.descriptor.sql.BasicExtractor: INFO
+    org.springframework.cloud.commons.util.InetUtils: INFO    # 开启这边的日志，可以打印出Spring查找网卡的过程
+
+########################
+### APPLICATION CORE ###
+########################
+moon:
+  data:
+    token:
+      token-header: Authorization
+      token-head: Bearer
+      secret: '{cipher}217dc7745c7d909b49c2f3ed2910d204e2e1f07f9209a5466f56f038e9fdc280'
+      expiration: 7200
+      remember-me-expiration: 604800
+      salt: '{cipher}5227e37982548a2ba359053dc03ed4110c028d051cf136416156babac0b483c9ec3c169790e46352e0b599c6227e554dd9def7f1f7780611ae36af2ae8336797'
+      redirect: http://www.mifanxing.com/
+    wxpay:
+      mchID: 1488379182
+      notifyUrl: https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack
+      key: '{cipher}ab16f713d1f794a46f20dcc63d318b6ecdf7b92f671e5b2a0e093e9139e292d3595bb7270f5f8ab75820e1266f4571c8918be8b7b3b608401368de245ec2f96e'
+      sendName: 米饭星
+      wishing: 想了解更多音频知识，请关注·米饭星·~~
+      clientIp: 121.42.161.53
+      actName: 米饭星·注册送红包
+      remark: 没有备注
+      totalNum: 1
+      certPath: D://cert/apiclient_cert.p12
+      redirect: http://www.mifanxing.com/Wregisterresult/
+  security:
+    cas:
+      filter:
+        appKey: '{cipher}985cfc699e8319d075ec9bef2d2020974517ecb19ca4ba74ecd03ce3564a96178d4e3b562f9a57f2769dfc896f5c219788c1eef8db9e241cec30ec145d04a763'
+  model:
+    mybatis:
+      config-location: com/mifan/user/mybatis-config.xml
+  web:
+    micro-service:
+      enabled: true
+
+##########################
+### APPLICATION CONFIG ###
+##########################
+mifan:
+  proxy:
+    isUse: true
+    server: 10.31.236.67
+    port: 3128

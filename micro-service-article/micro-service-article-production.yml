@@ -1,9 +1,231 @@
 ﻿##############
-### Zipkin ###
+### EUREKA ###
 ##############
-# If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it’s omitting some spans.
-# Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there’s no support for 0.1% of the traces).
+# eureka.client.healthcheck.enabled=true should only be set in application.yml. Setting the value in bootstrap.yml will cause undesirable side effects like registering in eureka with an UNKNOWN status.
+eureka:
+  client:
+    healthcheck:
+      enabled: false                             # 开启健康检查
+  instance:
+    lease-expiration-duration-in-seconds: 30    # 续约到期时间
+    lease-renewal-interval-in-seconds: 10       # 续约更新时间间隔
+
+########################################################
+### EMBEDDED SERVER CONFIGURATION (ServerProperties) ###
+########################################################
+server:
+  port: 8821
+  session:
+    timeout: 28800
+
+##############
+### SPRING ###
+##############
 spring:
+  ##############
+  ### Zipkin ###
+  ##############
+  # If using Zipkin, configure the percentage of spans exported using spring.sleuth.sampler.percentage (default 0.1, i.e. 10%). Otherwise you might think that Sleuth is not working cause it’s omitting some spans.
+  # Percentage of requests that should be sampled. E.g. 1.0 - 100% requests should be sampled. The precision is whole-numbers only (i.e. there’s no support for 0.1% of the traces).
   sleuth:
     sampler:
       percentage: 0.1
+  application:
+    name: micro-service-article
+  aop:
+    auto: true                                          # Add @EnableAspectJAutoProxy.
+    proxy-target-class: false                           # Whether subclass-based (CGLIB) proxies are to be created (true) as opposed to standard Java interface-based proxies (false).
+  http:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      location:
+      max-file-size: 1MB
+      max-request-size: 10MB
+      resolve-lazily: false
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  datasource:                                                 # 指定数据源
+    initialize: false
+    schema: classpath:/sql/schema-article.sql                             # 指定数据库的建表脚本
+    data: classpath:/sql/data-article.sql                                # 指定数据库的数据脚本
+    url: jdbc:mariadb://10.31.40.4:3306/mifan_article?useUnicode=true&autoReconnect=true
+    username: '{cipher}ee0f47d79c7962d74bf05e5227c7d85c8b68cba4dadc25bdf41e1a0196a4a27c'
+    password: '{cipher}d2d4229be8bd6ee1b5b525aaaa379afadd194fcad6dfc75efe73bf7762574c80'
+    driver-class-name: org.mariadb.jdbc.Driver
+    max-active: 1000
+    max-idle: 8
+    min-idle: 1
+    initial-size: 10
+    validation-query=: SELECT 'x' FROM DUAL
+    test-on-borrow: true
+    test-on-return: false
+    test-while-idle: true
+    time-between-eviction-runs-millis: 3000
+    min-evictable-idle-time-millis: 30000
+    max-wait: 60000
+    tomcat:
+      max-active: 100
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+      initial-size: 10
+      validation-query: SELECT 1 FROM DUAL
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 3000
+      min-evictable-idle-time-millis: 30000
+  rabbitmq:
+    host: 10.31.236.67
+    port: 5672
+    username: '{cipher}52fe7636edaffe0c51b2ca260242dd893e42b78e7b16fd1b3d47935fae8f2827'
+    password: '{cipher}7e476c464747a8e971a943f0dede1ee6cf486be67721e5d1dfcd8748d01db1c9'
+    publisher-confirms: true
+    requested-heartbeat: 60
+    template:
+      receive-timeout: 0
+      reply-timeout: 30000
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 10000
+        multiplier: 10.0
+  redis:
+    host: 10.31.40.4
+    port: 6379
+    database: 0
+    timeout: 0
+    pool:
+      max-active: 800
+      max-wait: 60000
+      max-idle: 8
+      min-idle: 1
+
+  output:
+    ansi:
+      enabled: always
+
+###########################
+### SECURITY PROPERTIES ###
+###########################
+security:
+  basic:
+    enabled: false
+  user:
+    name: '{cipher}8f3f803c47eb5f10ed8ef634d368ecc3ffbba9e4f1a8586294aa1b00184dbcd2'
+    password: '{cipher}f9621ba1d0b0fec59454052ad379df2703953a9caa7bfb0957af50c570e03cfb'
+
+###############
+### LOGGING ###
+###############
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO                                       # 配置日志级别，让hibernate打印出执行的SQL
+    org.springframework.web: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO
+    org.hibernate.type.descriptor.sql.BasicExtractor: INFO
+    org.springframework.cloud.commons.util.InetUtils: INFO    # 开启这边的日志，可以打印出Spring查找网卡的过程
+
+#############
+### FEIGN ###
+#############
+feign:
+  httpclient:
+    connection-timeout: 10000
+  hystrix:
+    enabled: true
+
+############################# To set thread isolation to SEMAPHORE,
+### FEIGN HYSTRIX SUPPORT ### RequestContextHolder.getRequestAttributes() read from Thread Local, so need to set hystrix isolation strategy to SEMAPHORE
+#############################
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 6000
+    micro-service-user:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 6000
+
+ribbon:
+  ConnectTimeout: 1000
+  ReadTimeout: 6000
+  SocketTimeout: 6000
+
+########################
+### APPLICATION CORE ###
+########################
+moon:
+  data:
+    token:
+      salt: '{cipher}5227e37982548a2ba359053dc03ed4110c028d051cf136416156babac0b483c9ec3c169790e46352e0b599c6227e554dd9def7f1f7780611ae36af2ae8336797'
+    elasticsearch:
+      host: 10.31.40.4
+  amqp:
+    rabbit:
+      remote-exchange: remote.direct.exchange2
+      remote-queue: remote.direct.queue2
+      server-data-queue: server.data.direct.queue2
+      server-data-exchange: server.data.direct.exchange2
+      client-data-queue: client.data.direct.queue2
+      client-data-exchange: client.data.direct.exchange2
+      server-event-queue: server.event.direct.queue2
+      server-event-exchange: server.event.direct.exchange2
+      client-event-exchange: client.event.direct.exchange2
+      client-event-queue: client.event.direct.queue2
+      # Spider queue
+      vpn-seeds-exchange: vpn.direct.exchange4
+      vpn-seeds-data-queue: vpn.data.direct.queue4
+      seeds-exchange: seeds.direct.exchange4
+      seeds-data-queue: seeds.data.direct.queue4
+      # Text queue, Classification, Clustering
+      analyzer-exchange: server.data.direct.analyzer.exchange
+      analyzer-queue: server.data.direct.analyzer.queue
+  jsch:
+    host: 10.31.40.4
+    port: 22
+    user: '{cipher}3e61283a320530bdc597a3affac5a1f936bd820b55d891adafcfa89e2d17afbf'
+    password: '{cipher}34379c77ced6e1f11cc21e1ef3e1683759becc0db37ebf8f10a9e4a97b719635'
+    known-hosts: 10.31.236.67 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDRJvXfP9jGryZyiqWdm3LnGJuYnM7edxFjc/9ASPM+FwXYxlwdsKY6kU3e5o/QP7FE+PnN5KGLHN7QHQf7baXErxlE/315k6z8Lx3wDMHWModa9IrHOpuQoeVDq2KpM8nYnf4G4tWpPJEQW5s3btpR5ZYgrNV44WZiPWhuQXKaYeK5Ss8pvVUb2h+ZqIHt/No/kNeTKApODL7M9b1PCEh4hix1m9ZMTtDkQJretjRkNaW0/LGDN/ULvkRrPiF64G40Cr6C6UggilUTEL89B8zFGaYW/1Q4NuUzdBQ1Sn+/kQwQPJQN1orBd5KydCQQNb1Z9oq67sYPyxgdFKs4RRgl
+    strict-host-key-checking: true
+  model:
+    mybatis:
+      config-location: com/mifan/article/mybatis-config.xml
+  web:
+    micro-service:
+      enabled: true
+
+##########################
+### APPLICATION CONFIG ###
+##########################
+application:
+  image:
+    baseUrl: http://static.budee.com/yyren/image/
+  scheduler:
+    enable:
+      index: true
+      translation: true
+      update:
+        timer: true
+      water:
+        print: true
+      history:
+        cache: true
+  rest:
+    support:
+      host: static.mifanxing.com
+  admin:
+    quartz:                           ### 是否开启后台管理的调度中心
+      enable: true
