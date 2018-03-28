@@ -43,8 +43,8 @@ logging:
 ############
 zuul:
   host: # http://cloud.spring.io/spring-cloud-static/Edgware.RELEASE/single/spring-cloud.html#_zuul_timeouts
-    connect-timeout-millis: 3000
-    socket-timeout-millis: 6000
+    connect-timeout-millis: 30000
+    socket-timeout-millis: 60000
   ignoredPatterns: /**/admin-test/**
   routes:
     route-article:
@@ -59,10 +59,6 @@ zuul:
       path: /quiz/**
       serviceId: micro-service-quiz
       sensitiveHeaders:
-#    route-reward:
-#      path: /reward/**
-#      serviceId: micro-service-reward
-#      sensitiveHeaders:
     route-support:
       path: /support/**
       serviceId: micro-service-support
@@ -80,41 +76,36 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 6000
+            timeoutInMilliseconds: 60000
     micro-service-article:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 6000
+            timeoutInMilliseconds: 60000
     micro-service-award:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 6000
+            timeoutInMilliseconds: 60000
     micro-service-quiz:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 6000
-#    micro-service-reward:
-#      execution:
-#        isolation:
-#          thread:
-#            timeoutInMilliseconds: 6000
+            timeoutInMilliseconds: 60000
     micro-service-support:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 6000
+            timeoutInMilliseconds: 60000
     micro-service-user:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 6000
+            timeoutInMilliseconds: 60000
 
 ribbon:
-  ConnectTimeout: 3000
-  ReadTimeout: 6000
-  SocketTimeout: 6000
+  ConnectTimeout: 30000
+  ReadTimeout: 60000
+  SocketTimeout: 60000
 
 
