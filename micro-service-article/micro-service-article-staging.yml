@@ -194,7 +194,7 @@ moon:
       analyzer-exchange: server.data.direct.analyzer.exchange
       analyzer-queue: server.data.direct.analyzer.queue
   jsch:
-    host: 10.31.40.4
+    host: 10.31.236.67
     port: 22
     user: '{cipher}3e61283a320530bdc597a3affac5a1f936bd820b55d891adafcfa89e2d17afbf'
     password: '{cipher}34379c77ced6e1f11cc21e1ef3e1683759becc0db37ebf8f10a9e4a97b719635'
